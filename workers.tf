@@ -14,6 +14,7 @@ resource "aws_autoscaling_group" "workers" {
   enabled_metrics       = ["${compact(split(",", coalesce(lookup(var.worker_groups[count.index], "enabled_metrics", ""), local.workers_group_defaults["enabled_metrics"])))}"]
   count                 = "${var.worker_group_count}"
   placement_group       = "${lookup(var.worker_groups[count.index], "placement_group", local.workers_group_defaults["placement_group"])}"
+  load_balancers        = ["${compact(split(",", coalesce(lookup(var.worker_groups[count.index], "load_balancers", ""), local.workers_group_defaults["load_balancers"])))}"]
 
   tags = ["${concat(
     list(

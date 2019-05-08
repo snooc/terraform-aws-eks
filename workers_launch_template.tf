@@ -7,6 +7,7 @@ resource "aws_autoscaling_group" "workers_launch_template" {
   min_size          = "${lookup(var.worker_groups_launch_template[count.index], "asg_min_size", local.workers_group_launch_template_defaults["asg_min_size"])}"
   force_delete      = "${lookup(var.worker_groups_launch_template[count.index], "asg_force_delete", local.workers_group_launch_template_defaults["asg_force_delete"])}"
   target_group_arns = ["${compact(split(",", coalesce(lookup(var.worker_groups_launch_template[count.index], "target_group_arns", ""), local.workers_group_launch_template_defaults["target_group_arns"])))}"]
+  load_balancers    = ["${compact(split(",", coalesce(lookup(var.worker_groups_launch_template[count.index], "load_balancers", ""), local.workers_group_launch_template_defaults["load_balancers"])))}"]
 
   mixed_instances_policy {
     instances_distribution {
